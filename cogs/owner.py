@@ -45,7 +45,17 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
         else:
             await ctx.send('**`SUCCESS`**')
 
-
+    @commands.command(name='purge', aliases=['clean', 'del', 'delete'])
+    @commands.is_owner()
+    async def purge(self, ctx, amount=None):
+        if amount is None:
+            await ctx.channel.purge(limit=6)
+        # Too dangerous for ordinary mortals
+        # elif amount == "all":
+        #     await ctx.channel.purge()
+        else:
+            await ctx.channel.purge(limit=int(amount) + 1)
+            
 def setup(bot):
     bot.add_cog(OwnerCog(bot))
     print('Owner Setup')

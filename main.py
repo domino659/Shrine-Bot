@@ -6,15 +6,14 @@ from os.path import isfile, join
 
 import sys, traceback
 
-from unidecode import unidecode
-
 from utils import env
+from utils.watcher import watcher
+from utils.custom_help_command import CustomHelpCommand
 
 intents = discord.Intents.default()
 intents.members = True
 
 def get_prefix(bot, message):
-    """A callable Prefix for our bot. This could be edited to allow per server prefixes."""
 
     prefixes = ['>']
 
@@ -26,7 +25,7 @@ def get_prefix(bot, message):
 # This is the directory all are located in.
 cogs_dir = "cogs"
 
-bot = commands.Bot(command_prefix=get_prefix, intents = intents, description='ShrineBot')
+bot = commands.Bot(command_prefix=get_prefix, intents = intents, help_command=CustomHelpCommand())
 
 if __name__ == '__main__':
     for extension in [f.replace('.py', '') for f in listdir(cogs_dir) if isfile(join(cogs_dir, f))]:
@@ -55,12 +54,9 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     if not message.content.startswith('>'):
-        string = unidecode(message.content).lower()
-        print(string)
-        if "fleur" in string:
-            await message.channel.send("Grossier Merle")
+        if watcher(message):
+            await message.channel.send(f"Grossier Merle {message.author.mention}")
 
-            print(message.content)
     await bot.process_commands(message)
 
 

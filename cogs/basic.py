@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class SimpleCog(commands.Cog, name="Simple Commands"):
+class BasicCog(commands.Cog, name="Basic Commands"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -13,13 +13,13 @@ class SimpleCog(commands.Cog, name="Simple Commands"):
 
         await ctx.send(our_input)
 
-    @commands.command(name='add', aliases=['plus'])
-    @commands.guild_only()
-    async def do_addition(self, ctx, first: int, second: int):
-        """A simple command which does addition on two integer values."""
+    # @commands.command(name='add', aliases=['plus'])
+    # @commands.guild_only()
+    # async def do_addition(self, ctx, first: int, second: int):
+    #     """A simple command which does addition on two integer values."""
 
-        total = first + second
-        await ctx.send(f'The sum of **{first}** and **{second}**  is  **{total}.**')
+    #     total = first + second
+    #     await ctx.send(f'The sum of **{first}** and **{second}**  is  **{total}.**')
 
     @commands.command(name='me')
     @commands.is_owner()
@@ -29,5 +29,5 @@ class SimpleCog(commands.Cog, name="Simple Commands"):
         await ctx.send(f'Hello {ctx.author.mention}. This command can only be used by you!!')
 
 def setup(bot):
-    bot.add_cog(SimpleCog(bot))
-    print('Simple Setup')
+    bot.add_cog(BasicCog(bot))
+    print('Basic Setup')
